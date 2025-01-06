@@ -1,0 +1,37 @@
+/* Linked List Node */
+struct Node {
+    int data;
+    Node* next;
+    
+    Node(int x){
+        data = x;
+        next = NULL;
+    }
+    
+}; 
+
+class Solution {
+public:
+     struct Node* solve(struct Node *head, int n)
+    {
+           if(head==NULL){
+               return NULL;
+           }
+           Node* start=head;
+           Node* nthNode=head;
+           while(nthNode!=NULL and n>0){
+                nthNode=nthNode->next;
+                n--;
+           }
+           if(nthNode==NULL){
+               head=head->next;
+               return head;
+           }
+           while(nthNode->next!=NULL){
+              start=start->next;
+              nthNode=nthNode->next;
+           }
+           start->next=start->next->next;
+           return head;
+    }
+};
