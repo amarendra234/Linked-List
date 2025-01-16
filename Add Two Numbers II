@@ -1,0 +1,61 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* reverseLL(ListNode* head){
+        if(head==NULL or head->next==NULL){
+            return head;
+        }
+        ListNode* newHead=reverseLL(head->next);
+        head->next->next=head;
+        head->next=NULL;
+        return newHead;
+    }
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode* newHead1=reverseLL(l1);
+        ListNode* newHead2=reverseLL(l2);
+        ListNode* dummy=new ListNode(-1);
+        ListNode* temp=dummy;
+        int carry=0;
+        while(newHead1!=NULL and newHead2!=NULL){
+            int sum=newHead1->val+newHead2->val+carry;
+            ListNode* newHead=new ListNode(sum%10);
+            temp->next=newHead;
+            temp=temp->next;
+            carry=sum/10;
+            newHead1=newHead1->next;
+            newHead2=newHead2->next;
+        }
+        while(newHead1!=NULL){
+            int sum=carry+newHead1->val;
+            ListNode* newHead=new ListNode(sum%10);
+            carry=sum/10;
+            temp->next=newHead;
+            temp=temp->next;
+            newHead1=newHead1->next;
+        }
+        while(newHead2!=NULL){
+            int sum=carry+newHead2->val;
+            ListNode* newHead=new ListNode(sum%10);
+            carry=sum/10;
+            temp->next=newHead;
+            temp=temp->next;
+            newHead2=newHead2->next;
+        }
+        if(carry!=0){
+           ListNode* newHead=new ListNode(carry);
+           temp->next=newHead;
+           temp=temp->next;
+        }
+        ListNode* Head=dummy->next;
+        return reverseLL(Head);
+    }
+};
